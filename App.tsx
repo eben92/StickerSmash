@@ -8,6 +8,7 @@ import IconButton from "./components/IconButton";
 import CircleButton from "./components/CircleButton";
 import EmojiPicker from "./components/EmojiPicker";
 import EmojiList from "./components/EmojiList";
+import EmojiSticker from "./components/EmojiSticker";
 
 const Placeholder = require("./assets/images/background-image.png");
 
@@ -49,6 +50,9 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <ImageViewer selectedImage={selectedImage} placeholder={Placeholder} />
+        {pickedEmoji ? (
+          <EmojiSticker stickerSource={pickedEmoji} imageSize={40} />
+        ) : null}
       </View>
       {showAppOptions ? (
         <View style={styles.optionsContainer}>
