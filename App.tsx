@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useRef, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Platform } from "react-native";
 import ImageViewer from "./components/imageViewer";
 import Button from "./components/Button";
 import * as ImagePicker from "expo-image-picker";
@@ -12,10 +12,12 @@ import EmojiSticker from "./components/EmojiSticker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as MediaLibrary from "expo-media-library";
 import { captureRef } from "react-native-view-shot";
+import DomToImage from "dom-to-image";
+
 const Placeholder = require("./assets/images/background-image.png");
 
 export default function App() {
-  const imageRef = useRef(null);
+  const imageRef = useRef<any | null>(null);
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
@@ -52,6 +54,23 @@ export default function App() {
   };
 
   const onSaveImageAsync = async () => {
+    if (Platform.OS === "web") {
+      try {
+        const dataUrl = await DomToImage.toJpeg(imageRef.current, {
+          quality: 0.95,
+          width: 320,
+          height: 440,
+        });
+
+        let link = document.createElement("a");
+        link.download = "sticker-smash.jpeg";
+        link.href = dataUrl;
+        link.click();
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    }
     try {
       const localUri = await captureRef(imageRef, {
         width: 440,
@@ -110,7 +129,7 @@ export default function App() {
         <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
       </EmojiPicker>
 
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     </GestureHandlerRootView>
   );
 }

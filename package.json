@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^18.1.2",
+    "dom-to-image": "^2.6.0",
     "expo": "~49.0.8",
     "expo-image-picker": "~14.3.2",
     "expo-media-library": "~15.4.1",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@types/dom-to-image": "^2.6.4",
     "@types/react": "~18.0.14",
     "typescript": "^5.1.3"
   },
